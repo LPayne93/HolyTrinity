@@ -23,12 +23,14 @@ public class UIElement : MonoBehaviour
 
     public virtual void Select(UICursor cursor)
     {
-        if(nextScreen != null)
+        SoundManager.Instance.Play(1);
+        if (nextScreen != null)
         FindObjectOfType<GameController>().ChangeScreen(nextScreen);
     }
 
     public void Deselect()
     {
+        SoundManager.Instance.Play(0);
         highlightedBy -= 1;
         SetHighlightImage();
     }
@@ -51,6 +53,7 @@ public class UIElement : MonoBehaviour
 
     public void Highlight()
     {
+        
         highlightedBy += 1;
         SetHighlightImage();
     }

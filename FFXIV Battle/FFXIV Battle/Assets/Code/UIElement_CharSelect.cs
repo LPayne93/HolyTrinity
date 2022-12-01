@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class UIElement_CharSelect : UIElement
 {
     public GameObject character;
@@ -9,9 +9,11 @@ public class UIElement_CharSelect : UIElement
     public override void Select(UICursor cursor)
     {
         PlayerController pc = cursor.GetComponentInParent<PlayerController>();
-        GameObject playerChar = Instantiate(character, pc.gameObject.transform);
-        pc.characterController = playerChar.GetComponent<CharacterController>();
-        pc.controllingUI = false;
+        GameController.Instance.GiveCharacterToPlayer(pc, character);
+
+        SoundManager.Instance.Play(1);
+        GameController.StartGame(nextScreen);
+
     }
 
     void Start()

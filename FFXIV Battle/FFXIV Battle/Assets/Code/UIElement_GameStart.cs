@@ -6,7 +6,7 @@ public class UIElement_GameStart : UIElement
 {
     public override void Select(UICursor cursor)
     {
-        FindObjectOfType<GameController>().ChangeScreen(nextScreen);
+        base.Select(cursor);
         FindObjectOfType<GameController>().EnableJoining();
     }
     // Start is called before the first frame update

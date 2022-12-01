@@ -9,9 +9,15 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public UICursor uicursor;
-    public CharacterController characterController;
+    public PlayerCharacterController characterController;
     public bool controllingUI;
+    public int playerNumber;
 
+    private void Awake()
+    {
+        GameController.AddPlayer(this.gameObject);
+        playerNumber = GameController.players.Count;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -19,23 +25,22 @@ public class PlayerController : MonoBehaviour
     }
 
     public void DPad(InputAction.CallbackContext context)
-    {
-   
+    {   
         Vector2 direction = context.ReadValue<Vector2>();
         if (controllingUI && context.performed)
         {
-            Debug.Log(context.ReadValue<Vector2>());
             if (direction.y > .5) uicursor.Up();
             if (direction.y < -.5) uicursor.Down();
             if (direction.x > .5) uicursor.Right();
             if (direction.x < -.5) uicursor.Left();
         }
-        else
+        else if (!controllingUI)
         {
+            characterController.DPad(direction);
             if (direction.y > .5) characterController.Up();
             if (direction.y < -.5) characterController.Down();
-            if (direction.x > .5) characterController.Right();
-            if (direction.x < -.5) characterController.Left();
+            //if (direction.x > .5) characterController.Right();
+            //if (direction.x < -.5) characterController.Left();
         }
 
     } 
@@ -44,8 +49,19 @@ public class PlayerController : MonoBehaviour
     {
         if (controllingUI && context.performed)
         {
-            Debug.Log("Clicked A");
             uicursor.Select();
+        }
+        else if (context.performed)
+        {
+            characterController.FastAttack();
+        }
+    }
+    
+    public void BButton(InputAction.CallbackContext context)
+    {
+        if(!controllingUI && context.performed)
+        {
+            characterController.StrongAttack();
         }
     }
 

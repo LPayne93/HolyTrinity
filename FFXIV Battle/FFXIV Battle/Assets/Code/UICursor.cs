@@ -10,6 +10,7 @@ public class UICursor : MonoBehaviour
     
     public void Highlight(UIElement element)
     {
+        if(element == null) { return; }
         highlightedElement = element;
         element.Highlight();
     }
